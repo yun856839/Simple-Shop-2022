@@ -2,7 +2,7 @@
   "name": "simple-shop2022",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "dev": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -16,6 +16,7 @@
     "express": "^4.18.1",
     "express-handlebars": "^6.0.6",
     "express-session": "^1.17.3",
+    "faker": "^5.4.0",
     "method-override": "^3.0.0",
     "mysql2": "^2.3.3",
     "sequelize": "^6.21.4",
