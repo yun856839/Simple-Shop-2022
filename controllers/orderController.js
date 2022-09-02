@@ -1,7 +1,26 @@
+require('dotenv').config()
 const db = require('../models')
 const Order = db.Order
 const OrderItem = db.OrderItem
 const Cart = db.Cart
+
+// ----------Mail 設定----------
+const nodemailer = require('nodemailer')
+const transporter = nodemailer.createTransport({
+	// 寄信的帳密
+	service: 'gmail',
+	host: 'smtp.gmail.com',
+	secureConnection: false, // SSL方式,防止竊取訊息
+	auth: {
+		type: 'OAuth2',
+		user: process.env.GMAIL_ACCOUNT,
+		clientId: process.env.CLINENTID,
+		clientSecret: process.env.CLINENTSECRET,
+		refreshToken: process.env.REFRESHTOKEN,
+		accessToken: process.env.ACCESSTOKEN,
+	},
+})
+// ----------Mail 設定----------
 
 let orderController = {
 	getOrders: async (req, res) => {
@@ -63,6 +82,22 @@ let orderController = {
 				})
 			)
 		}
+
+		// ----------Mail 設定----------
+		const mailOptions = {
+			from: process.env.GMAIL_ACCOUNT,
+			to: email,
+			subject: `訂單編號${order.id}成立`,
+			text: `${order.id} 訂單成立，總額為 ${amount}`,
+		}
+		await transporter.sendMail(mailOptions, function (err, info) {
+			if (err) {
+				console.log(err)
+			} else {
+				console.log('Email sent: ' + info.response)
+			}
+		})
+		// ----------Mail 設定----------
 
 		await Promise.all(results)
 		req.flash('success_msg', '成立訂單')
