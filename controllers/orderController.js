@@ -22,11 +22,27 @@ let orderController = {
 			payment_status,
 			amount,
 		} = req.body
-		if (!name) {
-			req.flash('error_messages', "name didn't exist")
-			return res.redirect('back')
+		const errors = []
+		const emailRule =
+			/^\w+((-\w+)|(\.\w+)|(\+\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/
+		if (!name.trim() || !phone.trim() || !address.trim() || !email.trim()) {
+			errors.push({ message: '*為必填，不能空白 !' })
 		}
-
+		if (isNaN(phone)) {
+			errors.push({ message: '非正確號碼' })
+		}
+		if (email.search(emailRule) === -1) {
+			errors.push({ message: '非正確 Email' })
+		}
+		if (errors.length) {
+			return res.render('cart', {
+				errors,
+				name,
+				address,
+				phone,
+				email,
+			})
+		}
 		let order = await Order.create({
 			name,
 			address,
@@ -49,6 +65,7 @@ let orderController = {
 		}
 
 		await Promise.all(results)
+		req.flash('success_msg', '成立訂單')
 		return res.redirect('/orders')
 	},
 
