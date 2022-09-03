@@ -43,13 +43,20 @@
       <li>payment_status: {{this.dataValues.payment_status}}</li>
     </ul>
 
+    {{#ifPaid this.dataValues.payment_status 0}}
+
+    {{else}}
+
     <div style="display: flex; justify-content: space-around;">
       <form action="/order/{{this.dataValues.id}}/cancel" method="POST">
         <button type="submit" class="btn btn-primary">取消訂單</button>
       </form>
 
-      <a href="/order/{{this.id}}/payment"><button class="btn btn-primary">立即付款</button></a>
+      <a href="/order/{{this.dataValues.id}}/payment"><button class="btn btn-primary">立即付款</button></a>
     </div>
+
+    {{/ifPaid}}
+
   </div>
 
 
@@ -59,4 +66,4 @@
 </div>
 
 <hr />
-{{/each}} 
+{{/each}}
