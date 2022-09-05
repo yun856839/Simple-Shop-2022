@@ -20,9 +20,16 @@
       <a href="/products">Shop</a>
     </h5>
     <nav class="my-2 my-md-0 mr-md-3">
-      <a class="p-2 text-dark" href="/admin/products">後台</a>
-      <a class="p-2 text-dark" href="/cart">Cart</a>
-      <a class="p-2 text-dark" href="/orders">Orders</a>
+      {{#if user}}
+      <span>Hi, {{user.email}}</span>
+      {{else}}
+      <span>Hi, 訪客</span>
+      {{/if}}
+      <a class="p-2 text-dark border border-info" href="/signin">登入</a>
+      <a class="p-2 text-dark border border-info" href="/admin/products">後台</a>
+      <a class="p-2 text-dark border border-info" href="/cart">Cart</a>
+      <a class="p-2 text-dark border border-info" href="/orders">Orders</a>
+      <a class="p-2 text-dark border border-warning" href="/logout">登出</a>
     </nav>
   </div>
 
