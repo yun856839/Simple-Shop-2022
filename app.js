@@ -20,6 +20,7 @@ app.engine(
 	})
 )
 app.set('view engine', 'hbs')
+app.use('/upload', express.static(__dirname + '/upload'))
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 app.use(

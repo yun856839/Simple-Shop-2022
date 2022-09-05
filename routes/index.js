@@ -1,6 +1,8 @@
 const passport = require('passport')
 const express = require('express')
 const router = express.Router()
+const multer = require('multer')
+const upload = multer({ dest: 'temp/' })
 const productController = require('../controllers/productController.js')
 const cartController = require('../controllers/cartController.js')
 const orderController = require('../controllers/orderController.js')
@@ -32,6 +34,38 @@ router.get('/admin', authenticatedAdmin, (req, res) =>
 	res.redirect('/admin/products')
 )
 router.get('/admin/products', authenticatedAdmin, adminController.getProducts)
+router.get(
+	'/admin/products/create',
+	authenticatedAdmin,
+	adminController.createProduct
+)
+router.post(
+	'/admin/products',
+	authenticatedAdmin,
+	upload.single('image'),
+	adminController.postProduct
+)
+router.get(
+	'/admin/products/:id',
+	authenticatedAdmin,
+	adminController.getProduct
+)
+router.get(
+	'/admin/products/:id/edit',
+	authenticatedAdmin,
+	adminController.editProduct
+)
+router.put(
+	'/admin/products/:id',
+	authenticatedAdmin,
+	upload.single('image'),
+	adminController.putProduct
+)
+router.delete(
+	'/admin/products/:id',
+	authenticatedAdmin,
+	adminController.deleteProduct
+)
 
 router.get('/', (req, res) => res.redirect('/products'))
 
