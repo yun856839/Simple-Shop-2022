@@ -10,10 +10,14 @@ const adminController = require('../controllers/adminController.js')
 const userController = require('../controllers/userController.js')
 
 const authenticatedAdmin = (req, res, next) => {
-	if (req.user.role === 'admin') {
-		return next()
+	if (req.isAuthenticated()) {
+		if (req.user.role === 'admin') {
+			return next()
+		}
+		return res.redirect('/signin')
 	}
-	return res.redirect('/')
+	req.flash('error_messages', '需為後台人員並先登入才可使用')
+	res.redirect('/signin')
 }
 
 router.get('/signin', userController.signInPage)
@@ -66,6 +70,7 @@ router.delete(
 	authenticatedAdmin,
 	adminController.deleteProduct
 )
+router.get('/admin/orders', adminController.getOrders)
 
 router.get('/', (req, res) => res.redirect('/products'))
 

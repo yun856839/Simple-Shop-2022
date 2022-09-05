@@ -1,5 +1,6 @@
 const db = require('../models')
 const Product = db.Product
+const Order = db.Order
 const fs = require('fs')
 const imgur = require('imgur')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
@@ -79,12 +80,15 @@ let adminController = {
 		return res.redirect('/admin/products')
 	},
 
-	deleteProduct: (req, res) => {
-		return Product.findByPk(req.params.id).then(product => {
-			product.destroy().then(product => {
-				res.redirect('/admin/products')
-			})
-		})
+	deleteProduct: async (req, res) => {
+		await Product.destroy({ where: { id: req.params.id } })
+		req.flash('success_messages', 'Product was successfully deleted')
+		return res.redirect('/admin/products')
+	},
+
+	getOrders: async (req, res) => {
+		let orders = await Order.findAll({ include: 'items' })
+		return res.render('admin/orders', { orders })
 	},
 }
 
