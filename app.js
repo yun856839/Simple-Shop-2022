@@ -4,6 +4,7 @@ const methodOverride = require('method-override')
 const flash = require('connect-flash')
 const routes = require('./routes/index')
 const session = require('express-session')
+const passport = require('./config/passport')
 
 require('dotenv').config()
 
@@ -30,6 +31,8 @@ app.use(
 		saveUninitialized: true,
 	})
 )
+app.use(passport.initialize())
+app.use(passport.session())
 app.use(flash())
 
 app.use((req, res, next) => {
