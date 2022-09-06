@@ -145,7 +145,7 @@ let orderController = {
 			payment_status,
 			amount,
 		} = req.body
-		if (!cart) {
+		if (!cart || !cart.dataValues.items.length) {
 			req.flash('error_messages', 'Woops! Your shopping cart is empty!')
 			return res.redirect('back')
 		}
