@@ -58,11 +58,11 @@ const userController = {
 			return res.redirect('/products')
 		}
 
-		req.flash('success_messages', '登出成功！')
 		req.logout(err => {
 			if (err) return next(err)
+			req.flash('success_messages', '登出成功！')
+			res.redirect('/products')
 		})
-		res.redirect('/products')
 	},
 }
 
