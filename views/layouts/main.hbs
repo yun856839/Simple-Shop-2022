@@ -17,19 +17,19 @@
 
   <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
     <h5 class="my-0 mr-md-auto font-weight-normal">
-      <a href="/products">Shop</a>
+      <a class="btn btn-danger" href="/products" style="color: white; font-weight: 700">Shop</a>
     </h5>
     <nav class="my-2 my-md-0 mr-md-3">
       {{#if user}}
-      <span>Hi, {{user.email}}</span>
+       <span class="border btn btn-outline-success" style="cursor: auto; font-weight: 700">Hi, {{user.email}}</span>
       {{else}}
-      <span>Hi, 訪客</span>
+      <span class="border btn btn-outline-success" style="cursor: auto; font-weight: 700">Hi, 訪客</span>
       {{/if}}
-      <a class="p-2 text-dark border border-info" href="/signin">登入</a>
-      <a class="p-2 text-dark border border-info" href="/admin/products">後台</a>
-      <a class="p-2 text-dark border border-info" href="/cart">Cart</a>
-      <a class="p-2 text-dark border border-info" href="/orders">Orders</a>
-      <a class="p-2 text-dark border border-warning" href="/logout">登出</a>
+      <a class="border btn btn-info" href="/signin">登入</a>
+      <a class="border btn btn-light" href="/admin/products">後台</a>
+      <a class="border btn btn-light" href="/cart">Cart</a>
+      <a class="border btn btn-light" href="/orders">Orders</a>
+      <a class="border btn btn-info" href="/logout">登出</a>
     </nav>
   </div>
 

@@ -6,7 +6,7 @@ const PAGE_OFFSET = 0
 
 let cartController = {
 	getCart: async (req, res) => {
-		console.log(req.session)
+		// console.log(req.session)
 		let cart = await Cart.findByPk(req.session.cartId, { include: 'items' })
 		cart = cart || { items: [] }
 		let totalPrice =

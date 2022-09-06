@@ -14,7 +14,8 @@ const authenticatedAdmin = (req, res, next) => {
 		if (req.user.role === 'admin') {
 			return next()
 		}
-		return res.redirect('/signin')
+		req.flash('error_messages', '非後台人員')
+		return res.redirect('/products')
 	}
 	req.flash('error_messages', '需為後台人員並先登入才可使用')
 	res.redirect('/signin')
