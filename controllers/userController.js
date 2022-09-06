@@ -8,22 +8,25 @@ const userController = {
 	},
 
 	signUp: async (req, res) => {
-		if (req.body.passwordCheck !== req.body.password) {
+		const emailRule =
+			/^\w+((-\w+)|(\.\w+)|(\+\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/
+		const { password, passwordCheck, email } = req.body
+		let userExisted = await User.findOne({ where: { email: req.body.email } })
+		if (passwordCheck !== password) {
 			req.flash('error_messages', '兩次密碼輸入不同！')
 			return res.redirect('/signup')
 		}
-		let userExisted = await User.findOne({ where: { email: req.body.email } })
+		if (email.search(emailRule) === -1) {
+			req.flash('error_messages', '非正確 Email')
+			return res.redirect('/signup')
+		}
 		if (userExisted) {
 			req.flash('error_messages', '信箱重複！')
 			return res.redirect('/signup')
 		}
 		await User.create({
-			email: req.body.email,
-			password: bcrypt.hashSync(
-				req.body.password,
-				bcrypt.genSaltSync(10),
-				null
-			),
+			email,
+			password: bcrypt.hashSync(password, bcrypt.genSaltSync(10), null),
 		})
 		req.flash('success_messages', '成功註冊帳號！')
 		return res.redirect('/signin')
